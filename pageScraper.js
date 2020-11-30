@@ -57,7 +57,13 @@ scraper = {
 
     //type in movie title
     await page.click('input[name=q]');
-    await page.$eval('input[name=q]', el => el.value = 'Alien')
+    let moviesToReview = ['Alien', 'Prometheus', 'Wet Hot American Summer', 'Super Troopers'];
+    let chosenMovie = moviesToReview[Math.floor(Math.random() * moviesToReview.length)];
+    console.log(chosenMovie);
+
+    await page.$eval('input[name=q]', (el, chosenMovie) =>  {
+      el.value = `${chosenMovie}`
+    }, chosenMovie)
     //limit search to subreddit
     await page.click('input[name=restrict_sr]')
     //submit search
@@ -66,7 +72,7 @@ scraper = {
     await page.waitForNavigation()
     await scrapeCurrentPage();
 
-    console.log(`allPostTitles ${allPostTitles}`);
+    return allPostTitles.join('');
   }
 }
 
