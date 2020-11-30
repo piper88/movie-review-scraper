@@ -23,10 +23,10 @@ scraper = {
 
       let nextPage = await page.evaluate(() => {
         console.log('page being evaluated for next button')
-        console.log(document.querySelector('.nextprev > a[rel~=next]').href);
+
         if (document.querySelector('.nextprev > a[rel~=next]')) {
           console.log('next button');
-           return document.querySelector('.nextprev > a[rel~=next]').href;
+          return document.querySelector('.nextprev > a[rel~=next]').href;
         } else {
           console.log('no next button');
           return false;
@@ -37,17 +37,12 @@ scraper = {
         console.log(`next page ${nextPage}`);
 
         await page.goto(nextPage, {waitUntil: 'load', timeout: 0});
-          //When just kept going to second page for infinity: I was going to the second page, but 'page' was still the first page, so the first page just kept being scraped. Have to change page to the new page, then scrape that new page.
-          //Old non-working code
-          // let nextPage = await browser.newPage();
-          // await nextPage.goto(nextUrl)
 
-        // await page.waitForNavigation();
         //recursive call to scrape the next page
         await scrapeCurrentPage();
       } else {
         console.log('else');
-        console.log(allPostTitles);
+        // console.log(allPostTitles);
         return;
       }
     }
