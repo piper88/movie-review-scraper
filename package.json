@@ -7,7 +7,9 @@
     "apos-to-lex-form": "^1.0.5",
     "debug": "^4.2.0",
     "natural": "^2.1.5",
-    "puppeteer": "^5.4.1"
+    "puppeteer": "^5.4.1",
+    "spelling-corrector": "^3.0.0",
+    "stopword": "^1.0.3"
   },
   "devDependencies": {},
   "scripts": {
