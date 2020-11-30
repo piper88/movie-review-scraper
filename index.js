@@ -6,4 +6,4 @@ const scraperController = require('./pageController.js');
 //just waits until browser is returned
 let browserInstance = browser();
 
-scraperController(browserInstance);
+scraperController.scrapeAll(browserInstance);

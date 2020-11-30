@@ -1,17 +1,27 @@
 const fs = require('fs');
 const pageScraper = require('./pageScraper.js');
+const browser = require('./browser.js');
 
-async function scrapeAll (browserInstance) {
+const natural = require('natural');
+const aposToLexForm = require('apos-to-lex-form');
 
-  let browser = await browserInstance;
-  let reviews = await pageScraper.scrape(browser);
-  fs.writeFileSync('./reviews.json', JSON.stringify(reviews), 'utf8', function(err) {
-    if (err) {
-      console.log('Reviews not saved');
-    } else {
-      console.log('Reviews saved');
-    }
-  })
+controller = {
+  async scrapeAll(browserInstance) {
+    let browser = await browserInstance;
+    let reviews = await pageScraper.scrape(browser);
+    controller.processValence(reviews);
+
+  },
+
+  processValence(reviews) {
+    let lexedReviews = aposToLexForm(reviews);
+    console.log(lexedReviews);
+  }
 }
 
-module.exports = (browserInstance) => scrapeAll(browserInstance);
+
+
+
+
+
+module.exports = controller;
