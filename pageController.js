@@ -14,13 +14,13 @@ const stopwords = require('stopword');
 controller = {
   async scrapeAll(browserInstance) {
     let browser = await browserInstance;
-    let reviews = await pageScraper.scrape(browser);
-    controller.processValence(reviews);
+    let review = await pageScraper.scrape(browser);
+
+    controller.processValence(review[0], review[1]);
 
   },
 
-  processValence(reviews) {
-    console.log('YOOOOOOO');
+  processValence(reviews, movie) {
     //remove contractions (e.g. I don't to I do not)
     let lexedReviews = aposToLexForm(reviews).toLowerCase();
     //remove special characters
@@ -34,12 +34,35 @@ controller = {
     tokenizedReview.forEach((word, index) => {
       tokenizedReview[index] = spellingCorrector.correct(word)
     })
+
     //remove stop words (e.g. but/a/the)
     const meaningfulReview = stopwords.removeStopwords(tokenizedReview);
-    console.log(meaningfulReview);
 
-  }
+    //filter out any words from movie title, as well as word 'review'
+    const filteredReview = meaningfulReview.filter(review => {
+      var keep = true;
+      var i = 0;
+      let movieSplitName = movie.toLowerCase().split(' ');
+      while (keep && i < movie.length) {
+        if (review == movieSplitName[i] || review == 'review') {
+          keep = false;
+        } else {
+          ++i;
+        }
+      }
+      return keep;
+    })
+
+    //perform the actual analysis
+    const {SentimentAnalyzer, PorterStemmer} = natural;
+    const analyzer = new SentimentAnalyzer('English', PorterStemmer, 'afinn');
+    const analysis = analyzer.getSentiment(filteredReview);
+    console.log(`${movie} received a score of ${analysis}`);
+
+  },
 }
+
+
 
 
 

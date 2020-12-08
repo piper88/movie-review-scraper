@@ -57,9 +57,9 @@ scraper = {
 
     //type in movie title
     await page.click('input[name=q]');
-    let moviesToReview = ['Alien', 'Prometheus', 'Wet Hot American Summer', 'Super Troopers'];
+    let moviesToReview = ['Wet Hot American Summer'];
     let chosenMovie = moviesToReview[Math.floor(Math.random() * moviesToReview.length)];
-    console.log(chosenMovie);
+
 
     await page.$eval('input[name=q]', (el, chosenMovie) =>  {
       el.value = `${chosenMovie}`
@@ -72,7 +72,8 @@ scraper = {
     await page.waitForNavigation()
     await scrapeCurrentPage();
 
-    return allPostTitles.join('');
+    return [allPostTitles.join(''), chosenMovie]
+
   }
 }
 
