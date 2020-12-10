@@ -9,7 +9,7 @@ const scraperController = require('./pageController.js');
 const scraper = require('./pageScraper.js');
 
 
-app.get('/', (req, res) => {
+app.get('/', (req, res) => { 
   //just waits until browser is returned
   let browserInstance = browser();
 
