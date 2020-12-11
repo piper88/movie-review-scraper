@@ -12,11 +12,12 @@ spellingCorrector.loadDictionary();
 const stopwords = require('stopword');
 
 const controller = {
-  async scrapeAll(browserInstance) {
+  async scrapeAll(browserInstance, movie) {
     let browser = await browserInstance;
-    let review = await redditScraper.scrape(browser);
+    let review = await redditScraper.scrape(browser, movie);
 
-    let score = await controller.processValence(review[0], review[1]);
+    // let score = await controller.processValence(review[0], review[1]);
+    let score = await controller.processValence(review, movie);
     console.log(`score ${score}`)
     // browser.close();
     return score;
@@ -59,7 +60,7 @@ const controller = {
     const {SentimentAnalyzer, PorterStemmer} = natural;
     const analyzer = new SentimentAnalyzer('English', PorterStemmer, 'afinn');
     const analysis = analyzer.getSentiment(filteredReview);
-    console.log(`${movie} received a score of ${analysis}`);
+    // console.log(`${movie} received a score of ${analysis}`);
     return analysis;
 
   },

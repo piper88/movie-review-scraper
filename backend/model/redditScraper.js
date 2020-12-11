@@ -2,7 +2,7 @@ const debug = require('debug')('page:pageScraper')
 
 scraper = {
   url: 'https://www.old.reddit.com/r/moviecritic',
-  async scrape(browserInstance) {
+  async scrape(browserInstance, movie) {
     debug('scraping');
 
     let allPostTitles = [];
@@ -56,13 +56,13 @@ scraper = {
 
     //type in movie title
     await page.click('input[name=q]');
-    let moviesToReview = ['Wet Hot American Summer'];
-    let chosenMovie = moviesToReview[Math.floor(Math.random() * moviesToReview.length)];
+    // let moviesToReview = ['Wet Hot American Summer'];
+    // let chosenMovie = moviesToReview[Math.floor(Math.random() * moviesToReview.length)];
 
 
-    await page.$eval('input[name=q]', (el, chosenMovie) =>  {
-      el.value = `${chosenMovie}`
-    }, chosenMovie)
+    await page.$eval('input[name=q]', (el, movie) =>  {
+      el.value = `${movie}`
+    }, movie)
     //limit search to subreddit
     await page.click('input[name=restrict_sr]')
     //submit search
@@ -71,7 +71,8 @@ scraper = {
     await page.waitForNavigation()
     await scrapeCurrentPage();
 
-    return [allPostTitles.join(''), chosenMovie]
+    // return [allPostTitles.join(''), chosenMovie]
+    return allPostTitles.join('');
 
   }
 }
