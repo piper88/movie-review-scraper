@@ -41,8 +41,7 @@ scraper = {
         //recursive call to scrape the next page
         await scrapeCurrentPage();
       } else {
-        console.log('else');
-        // console.log(allPostTitles);
+
         return;
       }
     }
