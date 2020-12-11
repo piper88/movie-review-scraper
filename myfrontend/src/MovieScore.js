@@ -12,7 +12,6 @@
      this.handleSubmit = this.handleSubmit.bind(this);
    }
 
-
    handleChange(event) {
      this.setState({movie: event.target.value});
    }
@@ -48,7 +47,6 @@
        </div>
      )
    }
-
  }
 
  export default class MovieScore extends Component {
@@ -57,20 +55,24 @@
      this.state = {
        movie: null,
        score: null,
+       show: 'form',
      };
 
      this.chooseMovie = this.chooseMovie.bind(this);
-     this.showScore = this.showScore.bind(this);
+     this.toggleElements = this.toggleElements.bind(this);
+     this.chooseAnother = this.chooseAnother.bind(this);
    }
 
    chooseMovie(movie) {
      this.setState({
        movie: movie,
+       show: 'fetching',
      })
 
      axios.get(`/scrapeMovie/${movie}`).then(response => {
        this.setState({
          score: response.data.score,
+         show: 'score',
        })
      })
     .catch(err => {
@@ -78,16 +80,34 @@
     })
    }
 
-   showScore() {
-     if (this.state.movie && this.state.score) {
+   chooseAnother() {
+     this.setState({
+       show: 'form',
+     })
+   }
+
+   toggleElements() {
+     if (this.state.show === 'form') {
        return (
-         <Score
-           score = {this.state.score}
-           movie = {this.state.movie}
-         />
+         <Form chooseMovie = {this.chooseMovie}/>
        )
-     } else {
-       return null;
+     } else if (this.state.show === 'fetching') {
+       return (
+         //some spinner thing
+         <h1>Fetching </h1>
+       )
+     } else if (this.state.show === 'score') {
+       return (
+         <div>
+           <Score
+             score = {this.state.score}
+             movie = {this.state.movie}
+           />
+           <button onClick = {this.chooseAnother}>
+            Choose A Different Movie!
+           </button>
+         </div>
+        )
      }
    }
 
@@ -99,20 +119,14 @@
               Movie Review Aggregator
             </h1>
             <p>
-
               Enter a movie title below to find out what redditors think of the movie. Reviews are collected from the subreddit r/MovieCritic, and analyzed for negative and positive words. <br /> A score between -1 and 1 is calculated, with -1 representing purely negative reviews and 1 representing purely positive.
-
             </p>
             <br />
             <br />
           </div>
 
-          <div className = "form">
-            <Form chooseMovie = {this.chooseMovie}/>
-          </div>
-
-          <div className = "score">
-            {this.showScore()}
+          <div className = "toggleElements">
+            {this.toggleElements()}
           </div>
         </div>
      )

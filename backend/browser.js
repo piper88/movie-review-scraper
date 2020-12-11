@@ -8,8 +8,6 @@ async function startBrowser() {
       headless: true,
       args: ["--disable-setuid-sandbox"],
       'ignoreHTTPSErrors': true,
-
-      // slowMo: 100
     });
 
   } catch(err) {
