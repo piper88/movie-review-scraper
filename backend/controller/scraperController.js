@@ -27,11 +27,11 @@ const controller = {
     //remove contractions (e.g. I don't to I do not)
     let lexedReviews = aposToLexForm(reviews).toLowerCase();
     //remove special characters
-    const alphaOnlyReview = lexedReviews.replace(/[^a-zA-Z\s]+/g, '')
+    let alphaOnlyReview = lexedReviews.replace(/[^a-zA-Z\s]+/g, '')
     //Split text into meaningful units
-    const { WordTokenizer } = natural;
-    const tokenizer = new WordTokenizer();
-    const tokenizedReview = tokenizer.tokenize(alphaOnlyReview);
+    let { WordTokenizer } = natural;
+    let tokenizer = new WordTokenizer();
+    let tokenizedReview = tokenizer.tokenize(alphaOnlyReview);
 
     //correct spelling mistakes
     tokenizedReview.forEach((word, index) => {
@@ -39,12 +39,12 @@ const controller = {
     })
 
     //remove stop words (e.g. but/a/the)
-    const meaningfulReview = stopwords.removeStopwords(tokenizedReview);
+    let meaningfulReview = stopwords.removeStopwords(tokenizedReview);
 
     //filter out any words from movie title, as well as word 'review'
-    const filteredReview = meaningfulReview.filter(review => {
-      var keep = true;
-      var i = 0;
+    let filteredReview = meaningfulReview.filter(review => {
+      let keep = true;
+      let i = 0;
       let movieSplitName = movie.toLowerCase().split(' ');
       while (keep && i < movie.length) {
         if (review == movieSplitName[i] || review == 'review') {
@@ -57,10 +57,11 @@ const controller = {
     })
 
     //perform the actual analysis
-    const {SentimentAnalyzer, PorterStemmer} = natural;
-    const analyzer = new SentimentAnalyzer('English', PorterStemmer, 'afinn');
-    const analysis = analyzer.getSentiment(filteredReview);
-    // console.log(`${movie} received a score of ${analysis}`);
+    let {SentimentAnalyzer, PorterStemmer} = natural;
+    let analyzer = new SentimentAnalyzer('English', PorterStemmer, 'afinn');
+    let analysis = analyzer.getSentiment(filteredReview);
+    //round to first 2 decimals
+    analysis = Math.round((analysis + Number.EPSILON) * 100) / 100
     return analysis;
 
   },

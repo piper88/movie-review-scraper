@@ -18,7 +18,6 @@
    }
 
    handleSubmit(event) {
-     console.log(`this.state.movie in handleSubmit in Child Component ${this.state.movie}`);
      this.props.chooseMovie(this.state.movie);
      event.preventDefault();
    }
@@ -95,6 +94,18 @@
    render() {
      return (
        <div>
+          <div className = "description">
+            <h1>
+              Movie Review Aggregator
+            </h1>
+            <p>
+
+              Enter a movie title below to find out what redditors think of the movie. Reviews are collected from the subreddit r/MovieCritic, and analyzed for negative and positive words. <br /> A score between -1 and 1 is calculated, with -1 representing purely negative reviews and 1 representing purely positive.
+
+            </p>
+            <br />
+            <br />
+          </div>
 
           <div className = "form">
             <Form chooseMovie = {this.chooseMovie}/>
