@@ -1,4 +1,4 @@
-import Form from './Form.js';
+import MovieScore from './MovieScore.js';
 import './App.css';
 
 
@@ -6,7 +6,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Form />
+        <MovieScore />
+
       </header>
     </div>
   );
