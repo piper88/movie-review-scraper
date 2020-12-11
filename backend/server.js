@@ -1,6 +1,6 @@
 const express = require('express');
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 const app = express();
 
 //browser just launches puppeteer and returns the browser
@@ -9,12 +9,11 @@ const scraperController = require('./pageController.js');
 const scraper = require('./pageScraper.js');
 
 
-app.get('/', (req, res) => { 
+app.get('/scrapeMovie', (req, res) => {
   //just waits until browser is returned
   let browserInstance = browser();
 
   scraperController.scrapeAll(browserInstance);
-  // res.send('yo')
 });
 
 app.listen(PORT, () => {
