@@ -1,6 +1,6 @@
 const fs = require('fs');
-const pageScraper = require('./pageScraper.js');
-const browser = require('./browser.js');
+const redditScraper = require('../model/redditScraper.js');
+const browser = require('../browser.js');
 
 
 const natural = require('natural');
@@ -11,16 +11,18 @@ const spellingCorrector = new SpellCorrector();
 spellingCorrector.loadDictionary();
 const stopwords = require('stopword');
 
-controller = {
+const controller = {
   async scrapeAll(browserInstance) {
     let browser = await browserInstance;
-    let review = await pageScraper.scrape(browser);
+    let review = await redditScraper.scrape(browser);
 
-    controller.processValence(review[0], review[1]);
-
+    let score = await controller.processValence(review[0], review[1]);
+    console.log(`score ${score}`)
+    // browser.close();
+    return score;
   },
 
-  processValence(reviews, movie) {
+  async processValence(reviews, movie) {
     //remove contractions (e.g. I don't to I do not)
     let lexedReviews = aposToLexForm(reviews).toLowerCase();
     //remove special characters
@@ -58,15 +60,9 @@ controller = {
     const analyzer = new SentimentAnalyzer('English', PorterStemmer, 'afinn');
     const analysis = analyzer.getSentiment(filteredReview);
     console.log(`${movie} received a score of ${analysis}`);
+    return analysis;
 
   },
 }
-
-
-
-
-
-
-
 
 module.exports = controller;

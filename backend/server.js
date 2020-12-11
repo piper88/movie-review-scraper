@@ -5,19 +5,17 @@ const app = express();
 
 //browser just launches puppeteer and returns the browser
 const browser = require ('./browser.js');
-const scraperController = require('./pageController.js');
-const scraper = require('./pageScraper.js');
+const scraperController = require('./controller/scraperController.js');
 
 
-app.get('/scrapeMovie', (req, res) => {
-  //just waits until browser is returned
-  let browserInstance = browser();
-
-  scraperController.scrapeAll(browserInstance);
+app.get('/scrapeMovie', async (req, res) => {
+  //waits until browser is launched by puppeteer
+  let browserInstance = await browser();
+  //begins actual scraping
+  let score = await scraperController.scrapeAll(browserInstance);
+  res.send({score});
 });
 
 app.listen(PORT, () => {
   console.log(`server up on ${PORT}`);
 })
-
-//Trying to connect the back end wih the front end. Server file with routes. How to serve interactive html when client reaches an endpoint?
