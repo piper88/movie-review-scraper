@@ -6,6 +6,7 @@
      super();
      this.state = {
        movie: '',
+       score: 0,
      }
 
      this.handleChange = this.handleChange.bind(this);
@@ -18,13 +19,16 @@
    }
 
    handleSubmit(event) {
-     axios.get('/scrapeMovie').then(response => {
-       console.log(response);
+     axios.get(`/scrapeMovie`).then(response => {
+       this.setState({
+         score: response.data.score,
+       })
+       console.log(response.data.score);
      })
-     //Send movie to controller
-     event.preventDefault();
-     // controller.scrape(this.state.movie)
-
+    .catch(err => {
+      console.error(err);
+    })
+    event.preventDefault();
    }
 
    render() {
@@ -37,8 +41,23 @@
           onChange={this.handleChange}/>
         </label>
       <input type="submit" value="Submit"/>
-
     </form>
      )
    }
  }
+ //
+ // class Score extends Component {
+ //
+ // }
+ //
+ // export default class MovieScore extends Component {
+ //   render() {
+ //     return (
+ //       <div>
+ //          <Form/>
+ //          <Score/>
+ //        </div>
+ //
+ //     )
+ //   }
+ // }
