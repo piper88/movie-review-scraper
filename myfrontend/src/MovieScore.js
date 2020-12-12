@@ -38,15 +38,22 @@
  }
 
  class Score extends Component {
-
    render() {
-     return (
-       <div>
-        <h1>
-          The movie {this.props.movie} got a score of {this.props.score}
-        </h1>
-       </div>
-     )
+     if (this.props.score === 'Movie not found') {
+       return (
+         <h1>
+          Movie not found
+         </h1>
+       )
+     } else {
+       return (
+         <div>
+          <h1>
+            The movie {this.props.movie} got a score of {this.props.score}
+          </h1>
+         </div>
+       )
+     }
    }
  }
 
@@ -71,6 +78,9 @@
      })
 
      axios.get(`/scrapeMovie/${movie}`).then(response => {
+       if (response.data.score == null) {
+         response.data.score = 'Movie not found';
+       }
        this.setState({
          score: response.data.score,
          show: 'score',
@@ -94,8 +104,8 @@
        )
      } else if (this.state.show === 'fetching') {
        return (
-         <div class="loader-container">
-           <div class="loader">
+         <div className="loader-container">
+           <div className="loader">
            </div>
          </div>
        )
@@ -122,7 +132,7 @@
               Movie Review Aggregator
             </h1>
             <p>
-              Enter a movie title below to find out what redditors think of the movie. Reviews are collected from the subreddit r/MovieCritic, and analyzed for negative and positive words. <br /> A score between -1 and 1 is calculated, with -1 representing purely negative reviews and 1 representing purely positive.
+              Enter a movie title below to find out what redditors think of the movie. Reviews are collected from the subreddit r/MovieCritic, and analyzed for negative and positive words. <br /> <br /> A score between -1 and 1 is calculated, with -1 representing purely negative reviews and 1 representing purely positive.
             </p>
             <br />
             <br />
