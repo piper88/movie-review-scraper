@@ -1,4 +1,5 @@
  import React, {Component} from 'react';
+ import './MovieScore.css';
  import axios from 'axios';
 
  class Form extends Component {
@@ -93,8 +94,10 @@
        )
      } else if (this.state.show === 'fetching') {
        return (
-         //some spinner thing
-         <h1>Fetching </h1>
+         <div class="loader-container">
+           <div class="loader">
+           </div>
+         </div>
        )
      } else if (this.state.show === 'score') {
        return (
