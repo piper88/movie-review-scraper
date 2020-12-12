@@ -1,6 +1,7 @@
  import React, {Component} from 'react';
  import './MovieScore.css';
  import axios from 'axios';
+ import url from './assets/scraper-bike.mp3';
 
  class Form extends Component {
    constructor(){
@@ -11,6 +12,9 @@
 
      this.handleChange = this.handleChange.bind(this);
      this.handleSubmit = this.handleSubmit.bind(this);
+
+
+     this.audio = new Audio(url);
    }
 
    handleChange(event) {
@@ -18,6 +22,7 @@
    }
 
    handleSubmit(event) {
+     this.audio.play();
      this.props.chooseMovie(this.state.movie);
      event.preventDefault();
    }
@@ -129,10 +134,10 @@
        <div>
           <div className = "description">
             <h1>
-              Movie Review Aggregator
+              Movie Review Scraper
             </h1>
             <p>
-              Enter a movie title below to find out what redditors think of the movie. Reviews are collected from the subreddit r/MovieCritic, and analyzed for negative and positive words. <br /> <br /> A score between -1 and 1 is calculated, with -1 representing purely negative reviews and 1 representing purely positive.
+              Enter a movie title below to find out what redditors think of the movie. Reviews are collected from the subreddit r/MovieCritic, and analyzed for negative and positive words. <br /> <br /> A score between -5 and 5 is calculated, with -5 representing purely negative reviews and 5 representing purely positive.
             </p>
             <br />
             <br />
